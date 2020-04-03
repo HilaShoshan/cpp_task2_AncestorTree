@@ -1,50 +1,98 @@
 #pragma once
 
+#include <bits/stdc++.h> 
 #include <iostream>
 
 namespace family {
 
-
     class Tree {
 
-        class Node {
-            std::string name; 
-            Node* left;
-            Node* right;
+        private:
+            class Node {
+                std::string name;
+                unsigned int level; 
+                Node* left;
+                Node* right;
 
-            public:
-                // constructor
-                Node(std::string name){
-                    this->name = name;
-                    this->left = nullptr;
-                    this->right = nullptr;
-                }
-        };
+                public:
+                    //getters
+                    std::string getName() { return this->name; }
+                    Node* getLeft() { return this->left; }
+                    Node* getRight() { return this->right; }
+                    unsigned int getLevel() { return this->level; }
+
+                    //setters not harmm *&*&*&
+                    void setLevel(unsigned int l){
+                        this->level = l;
+                    }
+                    void setLeft(Node* n){
+                        this->left = n;
+                    }
+                    void setRight(Node* n){
+                        this->right = n;
+                    }
+
+                    //constructor
+                    Node(std::string name, unsigned int l = 0){
+                        this->name = name;
+                        this->level = l;
+                        this->left = nullptr;
+                        this->right = nullptr;
+                    }
+                    //destructor
+                    ~Node(){}
+            };
 
         Node* root = nullptr;
 
+        private:
+            void Tree::destroy_family(Node* current){
+                if(current != nullptr){
+                    destroy_family(current->getLeft());
+                    destroy_family(current->getRight());
+                    delete current;
+                }
+            }       
+
+            // source https://www.geeksforgeeks.org/level-order-tree-traversal/      
+            Node* search(std::string toFind){
+                if (this->root->getName() == toFind)  
+                    return this->root; 
+   
+                queue<Node *> q; 
+                q.push(this->root); 
+  
+                while(!q.empty()) { 
+                    Node *current = q.front(); 
+                    if(current->getName() == toFind)
+                        return current;
+                    q.pop();
+                    if (current->getLeft() != nullptr) 
+                        q.push(current->getLeft()); 
+                    if (current->getRight() != nullptr) 
+                        q.push(current->getRight()); 
+                } 
+
+                throw std::runtime_error("Child doesn't exist");
+            }
+
         public:
+            //methods
             Tree addFather(std::string name, std::string father);
             Tree addMother(std::string name, std::string mother);
             std::string relation(std::string name);
             std::string find(std::string relation);
             void display();
             void remove(std::string name);
-            
+        
+
             // constructor
             Tree(std::string name) {
                 this->root = new Node(name);
             }
+             //destructor
             ~Tree() {
                 destroy_family(root);
-            }
-
-            void destroy_family(Node* current){
-                if(current != nullptr){
-                    destroy_family(current->left);
-                    destroy_family(current->right);
-                    delete current;
-                }
             }
     };
 }
