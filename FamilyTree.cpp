@@ -1,10 +1,5 @@
 #include "FamilyTree.hpp"
 
-
-
-
-
-
 namespace family {
 
     // father is always right 
@@ -14,17 +9,16 @@ namespace family {
             child->setRight(new Node(father, child->getLevel() + 1));
         else
             throw std::runtime_error("Father is already defined");
-
         return *this;
     }
 
+    // mother is left
     Tree Tree::addMother(std::string name, std::string mother) {
         Node* child = (Node*)(this->search(name));
         if(child->getLeft() == nullptr)
             child->setLeft(new Node(mother, child->getLevel() + 1));
         else
             throw std::runtime_error("Mother is already defined");
-
         return *this;
     }
     std::string Tree::relation(std::string name) {
@@ -34,7 +28,9 @@ namespace family {
         return "";
     }
     void Tree::display() {
-
+        std::cout << root->getName() << std::endl;
+        printSubtree(root, "");
+        std::cout << std::endl;
     }        
     void Tree::remove(std::string name) {
 
