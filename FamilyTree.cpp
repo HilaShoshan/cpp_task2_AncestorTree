@@ -19,7 +19,7 @@ namespace family {
     // mother is left
     Tree& Tree::addMother(std::string name, std::string mother) {
         Node* n = (Node*)(this->search(name));
-        if(n->getLeft() == nullptr){
+        if(n->getLeft() == nullptr) {
             n->setLeft(new Node(mother, n->getLevel() + 1));
             n->getLeft()->setChild(n);
             n->getRight()->setGender('f');
@@ -35,18 +35,14 @@ namespace family {
         } catch(const std::exception& ex){
             return "unrelated";
         }
-   
         unsigned int levelDiffer = n->getLevel() - this->root->getLevel();
-
         if(levelDiffer == 0)
             return "me";
         else if(n->getGender() == 'f')
-            return this->print_relation(levelDiffer, "mother");
-        
+            return this->print_relation(levelDiffer, "mother");   
         else
             return this->print_relation(levelDiffer, "father");
     }
-
 
     std::string Tree::find(std::string relation) {
         return "";

@@ -8,7 +8,7 @@ namespace family {
 
     class Tree {
 
-        //attributes (Tree)
+        //private data
         Node* root = nullptr;
 
         public:
@@ -26,21 +26,18 @@ namespace family {
             }
             //destructor
             ~Tree() {
-                std::cout << "destructor" << std::endl;
                 this->root = destroy_family(this->root);
             }
 
-            private:
+        private:
             Node* destroy_family(Node* current){
                 if(current == nullptr)
                     return nullptr;
-                
                 destroy_family(current->getLeft());
                 destroy_family(current->getRight());
                 delete current;
                 return nullptr;
             }
-    
 
             //source: https://stackoverflow.com/questions/13484943/print-a-binary-tree-in-a-pretty-way
             void printSubtree(Node* root, const std::string& prefix) {
@@ -61,20 +58,17 @@ namespace family {
                     std::cout << root->getRight()->getName() << std::endl;
                     printSubtree(root->getRight(), newPrefix);
                 }
-
                 if (hasLeft) {
                     std::cout << (hasRight ? prefix : "") << "└── " << root->getLeft()->getName() << std::endl;
                     printSubtree(root->getLeft(), prefix + "    ");
                 }
             }    
-            // source https://www.geeksforgeeks.org/level-order-tree-traversal/      
+            //source https://www.geeksforgeeks.org/level-order-tree-traversal/      
             Node* search(std::string toFind){
                 if (this->root->getName() == toFind)  
                     return this->root; 
-   
                 std::queue<Node *> q; 
                 q.push(this->root); 
-  
                 while(!q.empty()) { 
                     Node *current = q.front(); 
                     if(current->getName() == toFind)
@@ -85,7 +79,6 @@ namespace family {
                     if (current->getRight() != nullptr) 
                         q.push(current->getRight()); 
                 } 
-
                 throw std::runtime_error("Not in the family");
             }
 
@@ -96,9 +89,8 @@ namespace family {
                     return "grand"+relation;
                 else{
                     std::string ans = "grand"+relation;
-                    for(int i = 0; i < level-2; i++) {
+                    for(int i = 0; i < level-2; i++)
                         ans="great-"+ans;
-                    }
                     return ans;
                 }
             }
