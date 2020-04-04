@@ -1,50 +1,11 @@
 #pragma once
 
 #include <bits/stdc++.h> 
-#include <iostream>
+#include "Node.hpp"
 
 namespace family {
 
     class Tree {
-
-        /* private subclass: Node */
-            private:
-            class Node {
-
-                //attributes
-                std::string name;
-                unsigned int level; 
-                Node* left;
-                Node* right;
-
-                public:
-                    //getters
-                    std::string getName() { return this->name; }
-                    Node* getLeft() { return this->left; }
-                    Node* getRight() { return this->right; }
-                    unsigned int getLevel() { return this->level; }
-
-                    //setters
-                    void setLevel(unsigned int l){
-                        this->level = l;
-                    }
-                    void setLeft(Node* n){
-                        this->left = n;
-                    }
-                    void setRight(Node* n){
-                        this->right = n;
-                    }
-
-                    //constructor
-                    Node(std::string name, unsigned int l = 0){
-                        this->name = name;
-                        this->level = l;
-                        this->left = nullptr;
-                        this->right = nullptr;
-                    }
-                    //destructor
-                    ~Node(){}
-            };
 
         //attributes (Tree)
         Node* root = nullptr;
@@ -64,17 +25,21 @@ namespace family {
             }
             //destructor
             ~Tree() {
-                destroy_family(root);
+                root = destroy_family(root);
             }
 
             private:
-            void Tree::destroy_family(Node* current){
-                if(current != nullptr){
-                    destroy_family(current->getLeft());
-                    destroy_family(current->getRight());
-                    delete current;
-                }
-            }   
+            Node* destroy_family(Node* current){
+                if(current == nullptr)
+                    return nullptr;
+                
+                destroy_family(current->getLeft());
+                destroy_family(current->getRight());
+                delete current;
+                return nullptr;
+            }
+    
+
             //source: https://stackoverflow.com/questions/13484943/print-a-binary-tree-in-a-pretty-way
             void printSubtree(Node* root, const std::string& prefix) {
                 if(root == nullptr)
