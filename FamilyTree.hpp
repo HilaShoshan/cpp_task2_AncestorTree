@@ -2,6 +2,7 @@
 
 #include <bits/stdc++.h> 
 #include "Node.hpp"
+#include <string>
 
 namespace family {
 
@@ -12,8 +13,8 @@ namespace family {
 
         public:
             //methods
-            Tree addFather(std::string name, std::string father);
-            Tree addMother(std::string name, std::string mother);
+            Tree& addFather(std::string name, std::string father);
+            Tree& addMother(std::string name, std::string mother);
             std::string relation(std::string name);
             std::string find(std::string relation);
             void display();
@@ -25,7 +26,8 @@ namespace family {
             }
             //destructor
             ~Tree() {
-                root = destroy_family(root);
+                std::cout << "destructor" << std::endl;
+                this->root = destroy_family(this->root);
             }
 
             private:
@@ -84,7 +86,21 @@ namespace family {
                         q.push(current->getRight()); 
                 } 
 
-                throw std::runtime_error("Child doesn't exist");
+                throw std::runtime_error("Not in the family");
+            }
+
+            std::string print_relation(unsigned int level, std::string relation){       
+                if(level == 1)
+                    return relation;
+                else if(level == 2)
+                    return "grand"+relation;
+                else{
+                    std::string ans = "grand"+relation;
+                    for(int i = 0; i < level-2; i++) {
+                        ans="great-"+ans;
+                    }
+                    return ans;
+                }
             }
     };
 }
