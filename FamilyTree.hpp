@@ -29,6 +29,9 @@ namespace family {
                 this->root = destroy_family(this->root);
             }
 
+            //getter
+            Node* getRoot() { return this->root; }
+
         private:
             Node* destroy_family(Node* current){
                 if(current == nullptr)
