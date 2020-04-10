@@ -22,7 +22,7 @@ namespace family {
         if(n->getLeft() == nullptr) {
             n->setLeft(new Node(mother, n->getLevel() + 1));
             n->getLeft()->setChild(n);
-            n->getRight()->setGender('f');
+            n->getLeft()->setGender('f');
         }
         else
             throw std::runtime_error("Mother is already defined");
