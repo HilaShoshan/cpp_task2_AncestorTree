@@ -64,6 +64,8 @@ namespace family {
             n_child->setRight(nullptr);
 
         n = this->destroy_family(n);
+
+        //if trying to remove the root- throw an error!
     }
 
 
