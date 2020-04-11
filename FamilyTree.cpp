@@ -56,7 +56,7 @@ namespace family {
 
     void Tree::remove(std::string name) {
 
-        if(name == this->getRoot()->getName())
+        if(name == this->root->getName())
             throw std::runtime_error("Can not remove the root!");
 
         Node* n = (Node*)(this->search(name));
