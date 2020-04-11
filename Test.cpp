@@ -14,6 +14,7 @@ TEST_CASE("Test 1 addFather & addMother & relation") {
     CHECK(T.relation("Shalom") == string("me"));
     CHECK(T.relation("Aharon") == string("father"));
     CHECK(T.relation("Yafa") == string("mother"));
+
     CHECK_THROWS(T.addFather("Shalom", "Yosef")); //Shalom already has a father
     CHECK_THROWS(T.addMother("Shalom", "Meri"));
 
@@ -71,6 +72,7 @@ TEST_CASE("Test 1 find") {
         || T.find("grandmother") == string("Sima")
         || T.find("grandmother") == string("Ester"))); 
     CHECK_THROWS(T.find("great-great-grandfather"));
+    CHECK_THROWS(T.find("great-great-great-great-grandfather"));
 }
 
 TEST_CASE("Test 1 remove") {
