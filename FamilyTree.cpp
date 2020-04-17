@@ -1,5 +1,4 @@
 #include "FamilyTree.hpp"
- 
 
 namespace family {
 
@@ -28,6 +27,7 @@ namespace family {
             throw std::runtime_error("Mother is already defined");
         return *this;
     }
+    
     std::string Tree::relation(std::string name) {
         Node* n = nullptr;
         try{
@@ -45,6 +45,7 @@ namespace family {
     }
 
     std::string Tree::find(std::string relation) {
+
         return "";
     }
 
