@@ -3,6 +3,8 @@
 #include <bits/stdc++.h> 
 #include "Node.hpp"
 #include <string>
+#include <regex>
+#include <iterator>
 
 namespace family {
 
@@ -63,24 +65,16 @@ namespace family {
                     printSubtree(root->getLeft(), prefix + "    ");
                 }
             }    
+
             //source https://www.geeksforgeeks.org/level-order-tree-traversal/ 
-
-            Node* search_by_name(int level = -1, std::string toFind = "false") {
-
-                int num; //number that represents what we should search
-                if(toFind != "false" && level == -1)
-                    num = 0; //the function get a string (name) to find 
-                else num = 1; //the function get a level to find someone in this level
-
-                if((num == 0 && this->root->getName() == toFind)
-                    || (num == 1 && this->root->getLevel() == level))  
+            Node* search_by_name(std::string toFind){
+                if (this->root->getName() == toFind)  
                     return this->root; 
                 std::queue<Node *> q; 
                 q.push(this->root); 
                 while(!q.empty()) { 
                     Node *current = q.front(); 
-                    if((num == 0 && current->getName() == toFind)
-                        || (num == 1 && current->getLevel() == level))
+                    if(current->getName() == toFind)
                         return current;
                     q.pop();
                     if (current->getLeft() != nullptr) 
@@ -91,9 +85,33 @@ namespace family {
                 throw std::runtime_error("Not in the family");
             }
 
-            /*Node* search_by_lavel(int level) {
-
-            }*/
+            Node* search_by_lavel(int level, int isMother) {
+                if (level == 0) //it's "me"
+                    return this->root; 
+                std::queue<Node *> q; 
+                q.push(this->root); 
+                while(!q.empty()) { 
+                    Node *current = q.front(); 
+                    if(current->getLevel() == level)
+                        return current;
+                    q.pop();
+                    if(current->getLevel() == level-1) { //we are at the child of the one we need to find
+                        if(isMother == 1) //true, so we need to search just left
+                            if (current->getLeft() != nullptr) 
+                                q.push(current->getLeft()); 
+                        else //false, it's father --> search right
+                            if (current->getRight() != nullptr) 
+                                q.push(current->getRight());
+                    } 
+                    else {
+                        if (current->getLeft() != nullptr) 
+                            q.push(current->getLeft()); 
+                        if (current->getRight() != nullptr) 
+                            q.push(current->getRight()); 
+                    }
+                } 
+                throw std::runtime_error("Not in the family");
+            }
 
             std::string print_relation(unsigned int level, std::string relation) {       
                 if(level == 1)
@@ -115,7 +133,14 @@ namespace family {
                     return 1;
                 else if(relation == "grandmother" || relation == "grandfather")
                     return 2; 
-                else if()
+                else if(relation.find("great-") < relation.length()) { //contains "great" at least once
+                    size_t index = relation.find("great-");
+                    size_t len_just_greats = relation.length() - 11; //11 = the const size of "grandmother" or "grandfather"
+                    unsigned int num_of_greats = len_just_greats/6; //6 = the size of "great-" string
+                    return num_of_greats + 2;
+                }
+                else
+                    throw std::runtime_error("The tree cannot handle the '"+ relation +"' relation");
             }
     };
 }
