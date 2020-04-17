@@ -4,7 +4,7 @@ namespace family {
 
     // father is always right 
     Tree& Tree::addFather(std::string name, std::string father) {
-        Node* n = (Node*)(this->search(name));
+        Node* n = (Node*)(this->search_by_name(name));
         if(n->getRight() == nullptr){
             n->setRight(new Node(father, n->getLevel() + 1));
             n->getRight()->setChild(n);
@@ -17,7 +17,7 @@ namespace family {
 
     // mother is left
     Tree& Tree::addMother(std::string name, std::string mother) {
-        Node* n = (Node*)(this->search(name));
+        Node* n = (Node*)(this->search_by_name(name));
         if(n->getLeft() == nullptr) {
             n->setLeft(new Node(mother, n->getLevel() + 1));
             n->getLeft()->setChild(n);
@@ -27,11 +27,11 @@ namespace family {
             throw std::runtime_error("Mother is already defined");
         return *this;
     }
-    
+
     std::string Tree::relation(std::string name) {
         Node* n = nullptr;
         try{
-            n = (Node*)(this->search(name));
+            n = (Node*)(this->search_by_name(name));
         } catch(const std::exception& ex){
             return "unrelated";
         }
@@ -45,8 +45,13 @@ namespace family {
     }
 
     std::string Tree::find(std::string relation) {
-
-        return "";
+        unsigned int level = print_level(relation);
+        int isMother = 0; //default: is not mother, it's father or "me"
+        int len = relation.length();
+        if(relation.find("mother") < len || relation.find("Mother") < len)
+            isMother = 1; //true (it's mother/grandMother/great-grandMother etc.)
+        Node* n = (Node*)(this->search_by_level(level, isMother));
+        return n->getName();
     }
 
     void Tree::display() {
@@ -60,7 +65,7 @@ namespace family {
         if(name == this->root->getName())
             throw std::runtime_error("Can not remove the root!");
 
-        Node* n = (Node*)(this->search(name));
+        Node* n = (Node*)(this->search_by_name(name));
         Node* n_child = n->getChild();
 
         if(n_child->getLeft() != nullptr && n_child->getLeft()->getName() == name)
@@ -72,15 +77,4 @@ namespace family {
 
         //if trying to remove someone that is not on the tree- throw an error!
     }
-
-
-
-    
-
-
-
-
-
-
-
 }

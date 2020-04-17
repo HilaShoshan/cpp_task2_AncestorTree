@@ -85,7 +85,7 @@ namespace family {
                 throw std::runtime_error("Not in the family");
             }
 
-            Node* search_by_lavel(int level, int isMother) {
+            Node* search_by_level(int level, int isMother) {
                 if (level == 0) //it's "me"
                     return this->root; 
                 std::queue<Node *> q; 
