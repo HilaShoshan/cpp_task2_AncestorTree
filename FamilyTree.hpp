@@ -99,7 +99,7 @@ namespace family {
                         if(isMother == 1) //true, so we need to search just left
                             if (current->getLeft() != nullptr) 
                                 q.push(current->getLeft()); 
-                        else //false, it's father --> search right
+                        if(isMother == 0) //false, it's father --> search right
                             if (current->getRight() != nullptr) 
                                 q.push(current->getRight());
                     } 
