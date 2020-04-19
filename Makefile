@@ -1,3 +1,4 @@
+
 #!make -f
 
 CXX=clang++-9 
@@ -10,7 +11,7 @@ STUDENT_OBJECTS := $(subst .cpp,.o,$(STUDENT_SOURCES))
 run: test
 	./$^
 
-test: TestRunner.o Test_netanel.o Test_hila.o $(STUDENT_OBJECTS)
+test: TestRunner.o Test_ariel.o Test_hila.o $(STUDENT_OBJECTS)
 	$(CXX) $(CXXFLAGS) $^ -o test
 
 %.o: %.cpp $(HEADERS)

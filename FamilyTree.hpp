@@ -6,8 +6,6 @@
 #include <regex>
 #include <iterator>
 
-using namespace std;
-
 namespace family {
 
     class Tree {
